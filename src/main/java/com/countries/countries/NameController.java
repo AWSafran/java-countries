@@ -36,7 +36,18 @@ public class NameController
     {
         ArrayList<Country> matchingCountries = new ArrayList<>();
         matchingCountries = CountriesApplication.listOfCountries.findCountries(c -> c.getName().toLowerCase().charAt(0) == Character.toLowerCase(letter));
+        matchingCountries.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
         return new ResponseEntity<>(matchingCountries, HttpStatus.OK);
     }
     
+    //localhost:8080/name/size/2
+    //Return countries alphabetically that have name length >= number
+    @GetMapping(value = "/size/{length}")
+    public ResponseEntity<?> nameLength(@PathVariable int length)
+    {
+        ArrayList<Country> matchingCountries = new ArrayList<>();
+        matchingCountries = CountriesApplication.listOfCountries.findCountries(c -> c.getName().length() >= length);
+        matchingCountries.sort((c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName()));
+        return new ResponseEntity<>(matchingCountries, HttpStatus.OK);
+    }
 }
