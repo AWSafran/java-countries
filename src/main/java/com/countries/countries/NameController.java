@@ -1,6 +1,8 @@
 package com.countries.countries;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,7 @@ public class NameController
 {
     //localhost:8080/name/all
     //returns name of all countries alphabetically
-    @RequestMapping(value = "/all")
+    @GetMapping(value = "/all")
     public ResponseEntity<?> getAllNames()
     {
     
@@ -26,4 +28,15 @@ public class NameController
         return new ResponseEntity<>(countryNames, HttpStatus.OK);
         
     }
+    
+    //localhost:8080/name/start/a
+    //Return countries alphabetically that begin with the given letter
+    @GetMapping(value ="/start/{letter}")
+    public ResponseEntity<?> namesStartLetter(@PathVariable char letter)
+    {
+        ArrayList<Country> matchingCountries = new ArrayList<>();
+        matchingCountries = CountriesApplication.listOfCountries.findCountries(c -> c.getName().toLowerCase().charAt(0) == Character.toLowerCase(letter));
+        return new ResponseEntity<>(matchingCountries, HttpStatus.OK);
+    }
+    
 }
