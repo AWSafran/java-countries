@@ -22,4 +22,20 @@ public class AgeController
         return new ResponseEntity<>(oldCountries, HttpStatus.OK);
     }
     
+    @GetMapping("/min")
+    public ResponseEntity<?> minAge()
+    {
+        CountriesApplication.listOfCountries.countryList.sort((c1, c2) -> c1.getAge() - c2.getAge());
+        
+        return new ResponseEntity<>(CountriesApplication.listOfCountries.countryList.get(0), HttpStatus.OK);
+    }
+    
+    @GetMapping("/max")
+    public ResponseEntity<?> maxAge()
+    {
+        CountriesApplication.listOfCountries.countryList.sort((c1, c2) -> c2.getAge() - c1.getAge());
+    
+        return new ResponseEntity<>(CountriesApplication.listOfCountries.countryList.get(0), HttpStatus.OK);
+    }
+    
 }
