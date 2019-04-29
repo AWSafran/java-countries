@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class PopulationController
 {
     //localhost:8080/population/size/{number}
+    //find countries with population >= {number}
     @GetMapping(value="/size/{number}")
     public ResponseEntity<?> populationSize(@PathVariable long number)
     {
@@ -21,6 +22,38 @@ public class PopulationController
         
         bigCountries = CountriesApplication.listOfCountries.findCountries(c -> c.getPopulation() >= number);
         return new ResponseEntity<>(bigCountries, HttpStatus.OK);
+    }
+    
+    //localhost:8080/population/min
+    //find minimum population
+    @GetMapping(value = "/min")
+    public ResponseEntity<?> minPopulation()
+    {
+        ArrayList<Country> orderedCountries = new ArrayList<>();
+        
+        for (Country c : CountriesApplication.listOfCountries.countryList)
+        {
+            orderedCountries.add(c);
+        }
+        
+        orderedCountries.sort((c1, c2) -> (int)(c1.getPopulation() - c2.getPopulation()));
+        
+        return new ResponseEntity<>(orderedCountries.get(0), HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/max")
+    public ResponseEntity<?> maxPopulation()
+    {
+        ArrayList<Country> orderedCountries = new ArrayList<>();
+    
+        for (Country c : CountriesApplication.listOfCountries.countryList)
+        {
+            orderedCountries.add(c);
+        }
+    
+        orderedCountries.sort((c1, c2) -> (int)(c2.getPopulation() - c1.getPopulation()));
+    
+        return new ResponseEntity<>(orderedCountries.get(0), HttpStatus.OK);
     }
 
 }
