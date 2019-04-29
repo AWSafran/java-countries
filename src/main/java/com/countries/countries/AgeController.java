@@ -38,4 +38,15 @@ public class AgeController
         return new ResponseEntity<>(CountriesApplication.listOfCountries.countryList.get(0), HttpStatus.OK);
     }
     
+    //STRETCH GOAL
+    //localhost:8080/age/max
+    //Return country with median median age
+    @GetMapping("/median")
+    public ResponseEntity<?> medianAge()
+    {
+        CountriesApplication.listOfCountries.countryList.sort((c1, c2) -> c1.getAge() - c2.getAge());
+        
+        return new ResponseEntity<>(CountriesApplication.listOfCountries.countryList.get(CountriesApplication.listOfCountries.countryList.size() / 2), HttpStatus.OK);
+    }
+    
 }

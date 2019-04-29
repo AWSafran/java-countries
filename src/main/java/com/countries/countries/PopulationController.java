@@ -55,5 +55,16 @@ public class PopulationController
     
         return new ResponseEntity<>(orderedCountries.get(0), HttpStatus.OK);
     }
+    
+    //STRETCH GOAL
+    //localhost:8080/population/median
+    //Get country with median population
+    @GetMapping(value = "/median")
+    public ResponseEntity<?> medianPop()
+    {
+        CountriesApplication.listOfCountries.countryList.sort((c1, c2) -> (int)(c1.getPopulation() - c2.getPopulation()));
+        
+        return new ResponseEntity<>(CountriesApplication.listOfCountries.countryList.get(CountriesApplication.listOfCountries.countryList.size() / 2), HttpStatus.OK);
+    }
 
 }
